@@ -4,6 +4,10 @@ import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 
+function deleteTodo(id:string) {
+  client.models.Todo.delete({id});
+}
+
 const client = generateClient<Schema>();
 
 // create a reactive reference to the array of todos
@@ -40,7 +44,8 @@ function createTodo() {
     <ul>
       <li 
         v-for="todo in todos" 
-        :key="todo.id">
+        :key="todo.id"
+        @click.stop="deleteTodo(todo.id)">
         {{ todo.content }}
       </li>
     </ul>
